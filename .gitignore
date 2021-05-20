@@ -1,6 +1,11 @@
-assets/*
-!assets/.gitignore
-protected/runtime/*
-!protected/runtime/.gitignore
-protected/data/*.db
-themes/classic/views/
+web/assets/*
+!web/assets/.gitignore
+
+runtime/*
+!runtime/.gitignore
+
+# composer vendor dir
+vendor/*
+
+web/storage/*
+!web/storage/.gitignore
