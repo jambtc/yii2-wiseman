@@ -28,7 +28,10 @@
         "2amigos/yii2-google-maps-library": "*",
         "yiisoft/yii2-httpclient": "^2.0",
         "kartik-v/yii2-mpdf": "dev-master",
-        "2amigos/qrcode-library": "~1.1"
+        "2amigos/qrcode-library": "~1.1",
+        "idk/yii2-botman": "^1.0",
+        "botman/driver-telegram": "^1.6",
+        "botman/driver-web": "^1.5"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.1.0",

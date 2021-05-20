@@ -50,7 +50,7 @@ class SiteController extends Controller
 
     public function beforeAction($action)
 	{
-    	
+
         return parent::beforeAction($action);
 	}
 
@@ -78,40 +78,8 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-        // $searchModel = new InvoicesSearch();
-		// $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-		// $dataProvider->setPagination(['pageSize' => 10]);
-		// $dataProvider->sort->defaultOrder = ['invoice_timestamp' => SORT_DESC];
-        $dataProvider = null;
-
-        $userRequestsProvider = null;
-        if (Yii::$app->user->id != 1){
-            //$dataProvider->query->andWhere(['=','id_user', Yii::$app->user->id]);
-        } else {
-            $query = Users::find()
-                ->where(['is_merchant' => 0])
-                ->andWhere(['!=', 'id', 1]);
-
-            $userRequestsProvider = new ActiveDataProvider([
-                'query' => $query,
-                'pagination' => [
-                    'pageSize' => 5,
-                ],
-                'sort' => [
-                    'defaultOrder' => [
-                        'id' => SORT_DESC,
-                    ]
-                ],
-            ]);
-        }
-
-        if (Yii::$app->user->isGuest)
-            $this->layout = 'landing-page';
-
-        return $this->render('index', [
-            'dataProvider' => $dataProvider,
-            'userRequestsProvider' => $userRequestsProvider,
-        ]);
+        $this->layout = 'landing-page';
+        return $this->render('index');
     }
 
     /**

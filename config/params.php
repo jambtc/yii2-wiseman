@@ -38,4 +38,7 @@ return [
     'secret_hash_key' => $secrets['secret_hash_key'],
 
 
+    'openweather_key' => $secrets['openweather_key'],
+    'giphy_developer_api' => $secrets['giphy_developer_api'],
+
 ];

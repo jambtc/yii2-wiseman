@@ -41,12 +41,7 @@ LandingAsset::register($this);
         <nav id="sidebar-wrapper">
             <ul class="sidebar-nav">
                 <li class="sidebar-brand"><a class="js-scroll-trigger" href="#page-top"><?= Yii::$app->name ?></a></li>
-                <li class="sidebar-nav-item"><a class="js-scroll-trigger" href="#page-top">Home</a></li>
-                <li class="sidebar-nav-item"><a class="js-scroll-trigger" href="#about">About</a></li>
-                <li class="sidebar-nav-item"><a class="js-scroll-trigger" href="#services">Services</a></li>
-                <li class="sidebar-nav-item"><a class="js-scroll-trigger" href="#portfolio">Portfolio</a></li>
-                <li class="sidebar-nav-item"><a class="js-scroll-trigger" href="#contact">Contact</a></li>
-                <li class="sidebar-nav-item"><a class="js-scroll-trigger" href="<?= Url::to(['/site/login']) ?>"><?= Yii::t('app','Sign in') ?></a></li>
+                <li class="sidebar-nav-item"><a class="js-scroll-trigger" href="/index.php">Home</a></li>
             </ul>
         </nav>
 

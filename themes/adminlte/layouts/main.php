@@ -18,8 +18,6 @@ if (isset($_COOKIE['darkmode'])) {
 
 
 app\assets\AppAsset::register($this);
-// app\assets\NotificationsAsset::register($this);
-app\assets\ServiceWorkerAsset::register($this);
 ?>
 <?php $this->beginPage() ?>
 <!DOCTYPE html>

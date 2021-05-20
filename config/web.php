@@ -4,8 +4,8 @@ $params = require __DIR__ . '/params.php';
 $db = require __DIR__ . '/db.php';
 
 $config = [
-    'id' => 'Traceability',
-    'name' => 'Malvasia di Bosa',
+    'id' => 'Wiseman',
+    'name' => 'Wiseman',
     'language' => 'en-US', // Specifies which language the application is targeted to
     'basePath' => dirname(__DIR__),
     'bootstrap' => [
@@ -17,7 +17,6 @@ $config = [
         '@npm'   => '@vendor/npm-asset',
     ],
     'components' => [
-        'Erc20' => ['class' => 'app\components\Erc20'],
         'view' => [
             'theme' => [
                 'pathMap' => [
