@@ -16,10 +16,11 @@ WisemanAsset::register($this);
                                 <div class="overflow-auto" id="log" style="max-height: 300px;"></div>
                             </div>
                             <div class="col-lg-6">
-                                <form class="row">
+                                <form class="row" id="form">
                                     <input class="form-control " type="text" id="message" />
                                     </br>
                                     <input class="form-control " type="submit" />
+                                    <input value="false" id="interactive" type="hidden" />
                                 </form>
                             </div>
                         </div>
