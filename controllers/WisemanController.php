@@ -21,6 +21,7 @@ use app\components\Middleware\ReceivedMiddleware;
 
 
 // my conversations
+use app\components\Conversations\PoaConversation;
 use app\components\Conversations\OnboardingConversation;
 use app\components\Conversations\ButtonConversation;
 
@@ -142,16 +143,17 @@ class WisemanController extends Controller
 
         $botman->hears('help|aiuto|guida', function($bot) {
             $guida = [
-                // 'come ti chiami',
-                // 'Hi',
-                // 'hello',
-                // 'ciao',
-                // 'buongiorno',
-                // 'how are you',
-                // 'come stai',
+                'poa',
+                'come ti chiami',
+                'Hi',
+                'hello',
+                'ciao',
+                'buongiorno',
+                'how are you',
+                'come stai',
                 'che tempo fa a {location}',
                 '/gif {nome}',
-                '/video',
+                // '/video',
                 // 'il mio nome è {nome}',
                 // 'dimmi il mio nome',
                 // 'mi chiamo {nome}',
@@ -171,6 +173,13 @@ class WisemanController extends Controller
         $botman->hears('iniziamo(.*)', function ($bot) {
             $bot->reply('Va bene, cominciamo.');
             $bot->startConversation(new OnboardingConversation);
+
+        });
+
+        // conversation class
+        $botman->hears('poa(.*)', function ($bot) {
+            $bot->reply('Ok. Va bene, cominciamo.');
+            $bot->startConversation(new PoaConversation);
 
         });
 

@@ -1,0 +1,115 @@
+.ChatInput{
+    -webkit-writing-mode: horizontal-tb !important;
+    text-rendering: auto;
+    color: -internal-light-dark(black, white);
+    letter-spacing: normal;
+    word-spacing: normal;
+    text-transform: none;
+    text-indent: 0px;
+    text-shadow: none;
+    display: inline-block;
+    text-align: start;
+    appearance: auto;
+    background-color: -internal-light-dark(rgb(255, 255, 255), rgb(59, 59, 59));
+    -webkit-rtl-ordering: logical;
+    cursor: text;
+    margin: 0em;
+    font: 400 13.3333px Arial;
+    padding: 1px 2px;
+    border-width: 2px;
+    border-style: inset;
+    border-color: -internal-light-dark(rgb(118, 118, 118), rgb(133, 133, 133));
+    border-image: initial;
+}
+
+ul {
+    display: block;
+    list-style-type: disc;
+    margin-block-start: 1em;
+    margin-block-end: 1em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+    padding-inline-start: 40px;
+}
+ul.ChatLog {
+    list-style: none;
+}
+
+.ChatLog{
+    max-width: 20em;
+    margin: 0 auto;
+    /* max-height: 300px; */
+}
+
+.ChatLog__entry.ChatLog__entry_mine {
+    flex-direction: row-reverse;
+}
+.ChatLog .ChatLog__entry {
+    margin: .5em;
+}
+.ChatLog__entry {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-end;
+    max-width: 100%;
+}
+li {
+    display: list-item;
+    text-align: -webkit-match-parent;
+}
+.ChatLog__avatar {
+    flex-shrink: 0;
+    flex-grow: 0;
+    z-index: 1;
+    height: 50px;
+    width: 50px;
+    border-radius: 25px;
+}
+.ChatLog__entry.ChatLog__entry_mine .ChatLog__message {
+    border-top: 1px solid #07f;
+    border-bottom: 1px solid #07f;
+    background-color: #08f;
+    color: #fff;
+}
+.ChatLog__entry .ChatLog__message {
+    position: relative;
+    margin: 0 12px;
+}
+.ChatLog__message {
+    background-color: #495057;
+    padding: .5em;
+    border-radius: 4px;
+    font-weight: lighter;
+    max-width: 70%;
+}
+p {
+    display: block;
+    margin-block-start: 1em;
+    margin-block-end: 1em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+}
+.ChatLog__entry.ChatLog__entry_mine .ChatLog__message:before {
+    right: -12px;
+    bottom: .6em;
+    left: auto;
+    border: 6px solid transparent;
+    border-left-color: #08f;
+}
+.ChatLog__entry .ChatLog__message:before {
+    position: absolute;
+    right: auto;
+    bottom: .6em;
+    left: -12px;
+    height: 0;
+    content: "";
+    border: 6px solid transparent;
+    border-right-color: #495057;
+    z-index: 2;
+}
+
+#ChatScroll {
+    height: 300px;
+    /* max-height: 450px; */
+    overflow-y: auto;
+}

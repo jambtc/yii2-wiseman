@@ -8,26 +8,32 @@ WisemanAsset::register($this);
     <div class="row">
         <!-- Masthead-->
         <header class="masthead d-flex">
-            <div class="container text-light my-auto">
-                <div class="card bg-transparent shadow-lg p-3 mb-5 bg-white rounded float-right w-60" >
-                    <div class="card-body ">
-                        <div class="row">
-                            <div class="col-lg-6">
-                                <div class="overflow-auto" id="log" style="max-height: 300px;"></div>
-                            </div>
-                            <div class="col-lg-6">
-                                <form class="row" id="form">
-                                    <input class="form-control " type="text" id="message" />
-                                    </br>
-                                    <input class="form-control " type="submit" />
-                                    <input value="false" id="interactive" type="hidden" />
-                                </form>
-                            </div>
-                        </div>
+            <!-- Modal -->
+            <div class="modal fade" id="staticBackdrop" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+              <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                <div class="modal-content bg-transparent shadow-lg text-light">
+                  <!-- <div class="modal-header">
+                    <h5 class="modal-title" id="staticBackdropLabel">Modal title</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div> -->
+                  <div class="modal-body">
+                      <div class="col-lg-12" id='ChatScroll' >
+                          <ul class="ChatLog" id="ChatLog"></ul>
+                      </div>
+
+                  </div>
+                  <div class="modal-footer">
+                      <form id="form">
+                          <input class="form-control ChatInput" type="text" id="message" />
+                          <input value="false" id="interactive" type="hidden" />
+                      </form>
                     </div>
                 </div>
+              </div>
             </div>
-            <div class="overlay"></div>
+
         </header>
     </div>
 </div>

@@ -20,12 +20,14 @@ class WisemanAsset extends AssetBundle
     public $basePath = '@webroot/bundles/wiseman';
     public $baseUrl = '@web/bundles/wiseman';
     public $css = [
+        'wiseman.css'
     ];
     public $js = [
         'script.js',
     ];
     public $depends = [
         'yii\web\YiiAsset',
-        'yii\web\JqueryAsset'
+        'yii\web\JqueryAsset',
+        'yii\bootstrap4\BootstrapAsset',
     ];
 }

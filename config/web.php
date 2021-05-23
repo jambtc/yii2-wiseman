@@ -17,6 +17,7 @@ $config = [
         '@npm'   => '@vendor/npm-asset',
     ],
     'components' => [
+        // 'Erc20' => ['class' => 'app\components\Erc20'],
         'view' => [
             'theme' => [
                 'pathMap' => [
