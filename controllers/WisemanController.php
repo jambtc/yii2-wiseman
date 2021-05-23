@@ -17,7 +17,9 @@ use BotMan\BotMan\Messages\Attachments\Image;
 use BotMan\BotMan\Messages\Outgoing\OutgoingMessage;
 
 // middleware
-use app\components\Middleware\ReceivedMiddleware;
+// use app\components\Middleware\ReceivedMiddleware;
+// use app\components\Middleware\DialogFlowMiddleware;
+use BotMan\BotMan\Middleware\Dialogflow;
 
 
 // my conversations
@@ -51,8 +53,32 @@ class WisemanController extends Controller
         // Create BotMan instance
         $botman = BotManFactory::create($config, new \idk\yii2\botman\Cache());
 
-        // received: anche in caso di fallback vengono impostati i parametri Extras
-        $botman->middleware->received(new ReceivedMiddleware());
+
+        // google dialog flow
+        $dialogflow = Dialogflow::create(Yii::$app->params['google_dialog_flow'])->listenForAction();
+        $botman->middleware->received($dialogflow);
+
+        $botman->hears('weather', function ($bot) {
+            $apikey = Yii::$app->params['openweather_key'];
+            $extras = $bot->getMessage()->getExtras();
+            $value = json_decode($extras['address']);
+            $location = $value['city'];
+
+            // echo '<pre>'.print_r($apikey,true);exit;
+            $url = 'https://api.openweathermap.org/data/2.5/weather?q='
+                .urlencode($location)
+                .'&appid='.$apikey
+                .'&lang=it&units=metric';
+
+            $response = json_decode(file_get_contents($url));
+            $array = $response->weather[0];
+
+            // echo '<pre>'.print_r($response->weather[0],true);exit;
+            $bot->reply('Il tempo a ' .$response->name. ' è:');
+            $bot->reply($array->description);
+            $bot->reply('La temperatura è di '. $response->main->temp .' gradi.');
+        })->middleware($dialogflow);
+
 
         $botman->fallback(function ($bot) {
             $message = $bot->getMessage();
@@ -100,28 +126,7 @@ class WisemanController extends Controller
             $bot->reply('Bene, grazie!');
         });
 
-        $botman->hears('Che tempo fa (.*) {location}', function ($bot, $location) {
-            $apikey = Yii::$app->params['openweather_key'];
 
-            // echo '<pre>'.print_r($apikey,true);exit;
-            $url = 'https://api.openweathermap.org/data/2.5/weather?q='
-                .urlencode($location)
-                .'&appid='.$apikey
-                .'&lang=it&units=metric';
-
-            $response = json_decode(file_get_contents($url));
-
-
-
-                $array = $response->weather[0];
-
-                // echo '<pre>'.print_r($response->weather[0],true);exit;
-                $bot->reply('Il tempo a ' .$response->name. ' è:');
-                $bot->reply($array->description);
-                $bot->reply('La temperatura è di '. $response->main->temp .' gradi.');
-
-
-        });
 
         $botman->hears('/gif {name}', function($bot, $name){
             $apikey = Yii::$app->params['giphy_developer_api'];

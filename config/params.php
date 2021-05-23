@@ -40,5 +40,6 @@ return [
 
     'openweather_key' => $secrets['openweather_key'],
     'giphy_developer_api' => $secrets['giphy_developer_api'],
+    'google_dialog_flow' => $secrets['google_dialog_flow'],
 
 ];
