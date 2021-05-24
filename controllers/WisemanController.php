@@ -166,27 +166,27 @@ class WisemanController extends Controller
 
 
         $botman->hears('help|aiuto|guida', function($bot) {
-            $guida = [
-                'poa',
-                // 'come ti chiami',
-                // 'Hi',
-                // 'hello',
-                // 'ciao',
-                // 'buongiorno',
-                // 'how are you',
-                // 'come stai',
-                'che tempo fa a {location}',
-                // '/gif {nome}',
-                // '/video',
-                // 'il mio nome è {nome}',
-                // 'dimmi il mio nome',
-                // 'mi chiamo {nome}',
-                // 'iniziamo',
-                // 'scegli'
-
-            ];
+            // $guida = [
+            //     'poa',
+            //     // 'come ti chiami',
+            //     // 'Hi',
+            //     // 'hello',
+            //     // 'ciao',
+            //     // 'buongiorno',
+            //     // 'how are you',
+            //     // 'come stai',
+            //     'che tempo fa a {location}',
+            //     // '/gif {nome}',
+            //     // '/video',
+            //     // 'il mio nome è {nome}',
+            //     // 'dimmi il mio nome',
+            //     // 'mi chiamo {nome}',
+            //     // 'iniziamo',
+            //     // 'scegli'
+            //
+            // ];
             $bot->reply('Questa è la tua guida. Segui queste istruzioni...');
-            $bot->reply('<pre class="text-light">'.print_r($guida,true).'</pre>');
+            $bot->reply('...ehmmmm  prova a digitare "poa"');
         })->skipsConversation();
 
         $botman->hears('stop|ferma|ciao|bye', function($bot) {
