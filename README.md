@@ -7,3 +7,11 @@
 ## License
 
 Wiseman is free software distributed under the terms of the MIT license.
+
+
+## Requirements
+
+sudo apt-get install -y php7.2-bcmath
+
+mkdir vendor/botman/botman/src/Middleware/DialogFlow/V2
+copy genkovich src files 

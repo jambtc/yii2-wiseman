@@ -31,7 +31,8 @@
         "2amigos/qrcode-library": "~1.1",
         "idk/yii2-botman": "^1.0",
         "botman/driver-telegram": "^1.6",
-        "botman/driver-web": "^1.5"
+        "botman/driver-web": "^1.5",
+        "genkovich/dialog-flow-bot-man-middleware": "^0.0.6"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.1.0",

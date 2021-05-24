@@ -9,3 +9,7 @@ vendor/*
 
 web/storage/*
 !web/storage/.gitignore
+
+#google dialogflow environments
+.env
+google-dialogflow.json

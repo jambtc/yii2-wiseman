@@ -42,4 +42,8 @@ return [
     'giphy_developer_api' => $secrets['giphy_developer_api'],
     'google_dialog_flow' => $secrets['google_dialog_flow'],
 
+    'GOOGLE_CLOUD_PROJECT' => $secrets['GOOGLE_CLOUD_PROJECT'],
+    'GOOGLE_APPLICATION_CREDENTIALS' => $secrets['GOOGLE_APPLICATION_CREDENTIALS'],
+
+
 ];
