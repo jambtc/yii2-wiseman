@@ -36,7 +36,7 @@ ul.ChatLog {
 }
 
 .ChatLog{
-    max-width: 20em;
+    /* max-width: 20em; */
     margin: 0 auto;
     /* max-height: 300px; */
 }
@@ -109,7 +109,7 @@ p {
 }
 
 #ChatScroll {
-    height: 300px;
-    /* max-height: 450px; */
-    overflow-y: auto;
+    /* height: 300px; */
+    max-height: 13em;
+    /* overflow-y: auto; */
 }

@@ -18,8 +18,8 @@ WisemanAsset::register($this);
                       <span aria-hidden="true">&times;</span>
                     </button>
                   </div> -->
-                  <div class="modal-body">
-                      <div class="col-lg-12" id='ChatScroll' >
+                  <div class="modal-body" id='ChatScroll'>
+                      <div class="col-lg-12"  >
                           <ul class="ChatLog" id="ChatLog"></ul>
                       </div>
 

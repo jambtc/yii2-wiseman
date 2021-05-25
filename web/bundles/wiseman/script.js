@@ -45,6 +45,8 @@ $("form").submit(function(e) {
             var objDiv = document.getElementById("ChatScroll");
             objDiv.scrollTop = objDiv.scrollHeight;
 
+            // document.getElementById( 'ChatScroll' ).scrollIntoView();
+
             // reset input field
             $('#message').val('');
         },
@@ -54,10 +56,15 @@ $("form").submit(function(e) {
 });
 
 function showMessage(elemento, index) {
-    // console.log('[answer]',elemento,index);
+    console.log('[answer]',elemento,index);
     // $('#ChatLog')[0].innerHTML += '<p class="btn btn-info">'+ elemento.text + "</p></br>";
 
-    $("#ChatLog").append('<li class="ChatLog__entry"><img src="/bundles/landing-page/assets/img/logo.png" class="ChatLog__avatar"><p class="ChatLog__message">'+elemento.text+'</p></li>');
+    if (elemento.type == 'text' && elemento.text != ''){
+        $("#ChatLog").append('<li class="ChatLog__entry"><img src="/bundles/landing-page/assets/img/logo.png" class="ChatLog__avatar"><p class="ChatLog__message">'+elemento.text+'</p></li>');
+        var audio = new Audio("css/sounds/button-15.mp3");
+        audio.play();
+    }
+
     if (elemento.attachment != null){
         console.log('[attachment esiste ed è di tipo]',elemento.attachment.type);
         if (elemento.attachment.type == 'image'){
