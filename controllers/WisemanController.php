@@ -38,82 +38,53 @@ class WisemanController extends Controller
 
     public function actionIndex()
     {
-
-        // Set your driver
+        // Set your web driver
+        DriverManager::loadDriver(\BotMan\Drivers\Telegram\TelegramDriver::class);
         DriverManager::loadDriver(\BotMan\Drivers\Web\WebDriver::class);
-
         // config web driver
         $config = [
             'web' => [
             	'matchingData' => [
                     'driver' => 'web',
                 ],
+            ],
+            'telegram' => [
+	            'token' => Yii::$app->params['telegram_wiseman_token'],
             ]
         ];
-
         // Create BotMan instance
         $botman = BotManFactory::create($config, new \idk\yii2\botman\Cache());
 
-
         // google dialog flow
-        // $dialogflow = Dialogflow::create(Yii::$app->params['google_dialog_flow'])->listenForAction();
-        // $dialogflow = DialogFlow::create('it');
         $dialogflow = \BotMan\Middleware\DialogFlow\V2\DialogFlow::create('it');
-
         $botman->middleware->received($dialogflow);
 
+        // support dialog flow
         $botman->hears('support(.*)', function (Botman $bot) {
             $extras = $bot->getMessage()->getExtras();
             $apiReply = $extras['apiReply'];
-            $bot->reply($apiReply);
+            $bot->reply(Yii::$app->formatter->asDateTime(time()) . ' - ' .$apiReply);
         })->middleware($dialogflow);
 
-
+        // smaltalk dialog flow
         $botman->hears('smalltalk(.*)', function (Botman $bot) {
             $extras = $bot->getMessage()->getExtras();
-
             $apiReply = $extras['apiReply'];
             // $apiAction = $extras['apiAction'];
             // $apiIntent = $extras['apiIntent'];
             // $apiContexts = $extras['apiContexts'];
 
             $bot->reply($apiReply);
-            // $bot->reply('action: '.$apiAction);
-            // $bot->reply('intent: '.$apiIntent);
-            // $bot->reply('context: '.print_r($apiContexts));
         })->middleware($dialogflow);
 
+        // weather dialog flow
         $botman->hears('weather(.*)', function (Botman $bot) {
             $extras = $bot->getMessage()->getExtras();
-            // $param = $bot->getParameters();
-            //
-            // echo '<pre>'.print_r($param,true);exit;
-            // $apiReply = $extras['apiReply'];
             $apiAction = $extras['apiAction'];
-            // $apiIntent = $extras['apiIntent'];
-            // $apiActionIncomplete = $extras['apiActionIncomplete'];
-            // $apiParameters = $extras['apiParameters'];
             $apiContexts = $extras['apiContexts'];
 
             $location = $apiContexts[0]['parameters']['address.original'] ?? 'napoli';
-
-            // $bot->reply('Ecco la risposta da google api');
-            // $bot->typesAndWaits(1);
-
-            // $bot->reply('reply: '.$apiReply);
-            // $bot->reply('location: '.$location);
-            // $bot->reply('action: '.$apiAction);
-            // $bot->reply('intent: '.$apiIntent);
-            // $bot->reply('action incomplete: '.$apiActionIncomplete);
-            // $bot->reply('parameters: '.print_r($apiParameters));
-            // $bot->reply('context: '.print_r($apiConteexts));
-
             $apikey = Yii::$app->params['openweather_key'];
-            // $value = json_decode($reply);
-            // $location = $value['outputContexts']['parameters']['city'] ?? 'Napoli';
-            //
-            //
-            //
             // // echo '<pre>'.print_r($value,true);exit;
             $url = 'https://api.openweathermap.org/data/2.5/weather?q='
                 .urlencode($location)
@@ -123,40 +94,32 @@ class WisemanController extends Controller
             $response = json_decode(file_get_contents($url));
             $array = $response->weather[0];
 
-            // echo '<pre>'.print_r($response->weather[0],true);exit;
             $bot->reply('Il tempo a ' .$response->name. ' è:');
             $bot->reply($array->description);
             $bot->reply('La temperatura è di '. $response->main->temp .' gradi.');
         })->middleware($dialogflow);
 
+        // fallback
         $botman->fallback(function ($bot) {
             // $bot->reply($bot->getMessage()->getExtras('apiReply'));
             $message = $bot->getMessage();
             $value = $message->getText();
 
             if (trim($value) !== ''){
-                $timestamp = $bot->getMessage()->getExtras('timestamp');
-                $bot->reply($timestamp .' : Non capisco. Prova a digitare "help"');
+                // $timestamp = $bot->getMessage()->getExtras('timestamp');
+                $bot->reply('Il tuo user_id è:' . $bot->getMessage()->getSender());
+                $bot->reply(Yii::$app->formatter->asDateTime(time()) .' - Non ho capito. Prova a digitare "help"');
             }
         });
 
-
-
-        $botman->hears('come ti chiami(.*)', function (BotMan $bot) {
-            $bot->reply('Il mio nome è Wiseman, che significa "Uomo saggio"');
-        });
-
-
+        // gif
         $botman->hears('gif {name}', function($bot, $name){
             $apikey = Yii::$app->params['giphy_developer_api'];
             $url = 'https://api.giphy.com/v1/gifs/search?api_key='.$apikey
                     .'&q='.urlencode($name)
                     .'&limit=1&offset=0&rating=g&lang=it';
             $response = json_decode(file_get_contents($url));
-
-            // $data =  $response->data[0];
             $image = $response->data[0]->images->downsized_large->url;
-
             $message = OutgoingMessage::create('Questa è la tua gif')->withAttachment(
                 new Image($image)
             );
@@ -165,41 +128,22 @@ class WisemanController extends Controller
         });
 
 
+        // help
         $botman->hears('help|aiuto|guida', function($bot) {
-            // $guida = [
-            //     'poa',
-            //     // 'come ti chiami',
-            //     // 'Hi',
-            //     // 'hello',
-            //     // 'ciao',
-            //     // 'buongiorno',
-            //     // 'how are you',
-            //     // 'come stai',
-            //     'che tempo fa a {location}',
-            //     // '/gif {nome}',
-            //     // '/video',
-            //     // 'il mio nome è {nome}',
-            //     // 'dimmi il mio nome',
-            //     // 'mi chiamo {nome}',
-            //     // 'iniziamo',
-            //     // 'scegli'
-            //
-            // ];
             $bot->reply('Questa è la tua guida. Segui queste istruzioni...');
             $bot->reply('...ehmmmm  prova a digitare "poa"');
         })->skipsConversation();
 
-        $botman->hears('stop|ferma|ciao|bye', function($bot) {
+        // exit conversation
+        $botman->hears('stop|ferma|quit|bye|esci|abbandona', function($bot) {
             $bot->reply('Ciao. A presto.');
         })->stopsConversation();
 
 
-
-        // conversation class
+        // poa conversation class
         $botman->hears('poa(.*)', function ($bot) {
             $bot->reply('Ok. Va bene, cominciamo.');
             $bot->startConversation(new PoaConversation);
-
         });
 
 

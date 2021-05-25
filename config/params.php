@@ -45,5 +45,7 @@ return [
     'GOOGLE_CLOUD_PROJECT' => $secrets['GOOGLE_CLOUD_PROJECT'],
     'GOOGLE_APPLICATION_CREDENTIALS' => $secrets['GOOGLE_APPLICATION_CREDENTIALS'],
 
+    'telegram_wiseman_token' => $secrets['telegram_wiseman_token'],
+
 
 ];

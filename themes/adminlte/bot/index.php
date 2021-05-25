@@ -28,6 +28,7 @@ WisemanAsset::register($this);
                       <form id="form">
                           <input class="form-control ChatInput" type="text" id="message" />
                           <input value="false" id="interactive" type="hidden" />
+                          <input value="<?= $user_id ?>" id="user_id" type="hidden" />
                       </form>
                     </div>
                 </div>

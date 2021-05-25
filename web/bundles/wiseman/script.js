@@ -16,6 +16,7 @@ $("form").submit(function(e) {
     e.preventDefault();
     var message = $('#message').val();
     var is_interactive = $('#interactive').val();
+    var user_id = $('#user_id').val();
 
     if (message == ''){
         return false;
@@ -27,7 +28,7 @@ $("form").submit(function(e) {
         type: "POST",
         data:{
             "driver": 'web',
-            "userId": "1234",
+            "userId": user_id,
             "message": message,
             "interactive": is_interactive,
         },

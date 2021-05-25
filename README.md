@@ -13,5 +13,10 @@ Wiseman is free software distributed under the terms of the MIT license.
 
 sudo apt-get install -y php7.2-bcmath
 
-mkdir vendor/botman/botman/src/Middleware/DialogFlow/V2
-copy genkovich src files 
+## Register Telegram webhook
+
+https://api.telegram.org/bot{my_bot_token}/setWebhook?url={url_to_send_updates_to}
+
+and get info
+
+https://api.telegram.org/bot{my_bot_token}/getWebhookInfo

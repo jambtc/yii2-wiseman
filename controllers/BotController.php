@@ -10,11 +10,14 @@ use yii\web\Response;
 
 class BotController extends Controller
 {
-    
+
     public function actionIndex()
     {
         $this->layout = 'landing-page';
-        return $this->render('index');
+
+        return $this->render('index',[
+            'user_id' => Yii::$app->security->generateRandomString(8),
+        ]);
 
     }
 
