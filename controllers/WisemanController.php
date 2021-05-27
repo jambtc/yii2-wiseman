@@ -33,6 +33,8 @@ use app\components\Conversations\ButtonConversation;
 
 class WisemanController extends Controller
 {
+	public $enableCsrfValidation = false;
+	
     public function beforeAction($action)
 	{
     	$this->enableCsrfValidation = false;
