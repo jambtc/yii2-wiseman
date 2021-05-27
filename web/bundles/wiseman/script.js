@@ -41,6 +41,9 @@ $("form").submit(function(e) {
             var messages = j.messages;
 
             messages.forEach(showMessage);
+            // run one time
+            var audio = new Audio("css/sounds/button-15.mp3");
+            audio.play();
 
             // scroll div
             var objDiv = document.getElementById("ChatScroll");
@@ -62,8 +65,6 @@ function showMessage(elemento, index) {
 
     if (elemento.type == 'text' && elemento.text != ''){
         $("#ChatLog").append('<li class="ChatLog__entry"><img src="/bundles/landing-page/assets/img/logo.png" class="ChatLog__avatar"><p class="ChatLog__message">'+elemento.text+'</p></li>');
-        var audio = new Audio("css/sounds/button-15.mp3");
-        audio.play();
     }
 
     if (elemento.attachment != null){

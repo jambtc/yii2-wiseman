@@ -23,7 +23,7 @@ class PoaConversation extends Conversation
     public function run()
     {
 
-        $this->ask('Inserisci l\'indirizzo del token', function ($answer) {
+        $this->ask('Inserisci l`indirizzo del token', function ($answer) {
             $this->address = $answer->getText();
 
             if (!$this->isValidAddress($this->address)){
