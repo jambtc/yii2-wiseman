@@ -115,6 +115,16 @@ class WisemanController extends Controller
             $bot->reply($apiReply);
         })->middleware($dialogflow);
 
+        // smaltalk dialog flow
+        $botman->hears('fallback.google(.*)', function (Botman $bot) {
+            $this->log('$bot stream is: <pre>
+                '.print_r($bot->getMessage(),true).'
+            </pre>');
+            $extras = $bot->getMessage()->getExtras();
+            $apiReply = $extras['apiReply'];
+            $bot->reply($apiReply);
+        })->middleware($dialogflow);
+
         // weather dialog flow
         $botman->hears('weather(.*)', function (Botman $bot) {
             $this->log('$bot stream is: <pre>
