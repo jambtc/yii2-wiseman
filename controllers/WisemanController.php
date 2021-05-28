@@ -34,7 +34,7 @@ use app\components\Conversations\ButtonConversation;
 class WisemanController extends Controller
 {
 	public $enableCsrfValidation = false;
-	
+
     public function beforeAction($action)
 	{
     	$this->enableCsrfValidation = false;
@@ -65,20 +65,24 @@ class WisemanController extends Controller
             '.print_r($rawcontent,true).'
         </pre>');
 
-        // Set your web driver
-        DriverManager::loadDriver(\BotMan\Drivers\Telegram\TelegramDriver::class);
-        DriverManager::loadDriver(\BotMan\Drivers\Web\WebDriver::class);
-        // config web driver
-        $config = [
-            'web' => [
-            	'matchingData' => [
-                    'driver' => 'web',
+        // Set right web driver
+        if (isset($_POST) && isset($_POST['driver']) && $_POST['driver'] == 'web' ){
+            DriverManager::loadDriver(\BotMan\Drivers\Web\WebDriver::class);
+            $config = [
+                'web' => [
+                    'matchingData' => [
+                        'driver' => 'web',
+                    ],
                 ],
-            ],
-            'telegram' => [
-	            'token' => Yii::$app->params['telegram_wiseman_token'],
-            ]
-        ];
+            ];
+        } else {
+            DriverManager::loadDriver(\BotMan\Drivers\Telegram\TelegramDriver::class);
+            $config = [
+                'telegram' => [
+                    'token' => Yii::$app->params['telegram_wiseman_token'],
+                ]
+            ];
+        }
         // Create BotMan instance
         $botman = BotManFactory::create($config, new \idk\yii2\botman\Cache());
 
