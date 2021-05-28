@@ -43,10 +43,10 @@ class WisemanController extends Controller
 
     // scrive a video
     private function log($text, $die=false){
-        $log = new ApiLog;
-        $time = "\r\n" .date('Y/m/d h:i:s a - ', time());
-        // echo  $time.$text;
-        $log->save('wiseman','wiseman','index', $time.$text, $die);
+        // $log = new ApiLog;
+        // $time = "\r\n" .date('Y/m/d h:i:s a - ', time());
+        // // echo  $time.$text;
+        // $log->save('wiseman','wiseman','index', $time.$text, $die);
     }
 
     public function actionIndex()
@@ -90,13 +90,7 @@ class WisemanController extends Controller
         $dialogflow = \BotMan\Middleware\DialogFlow\V2\DialogFlow::create('it');
         $botman->middleware->received($dialogflow);
 
-        // telegram start
-        $botman->hears('/start', function (Botman $bot) {
-            $bot->reply('✋ Ciao! Mi chiamo Wiseman e sono il tuo assistente.');
-            $bot->reply('Possiamo chiacchierare liberamente, parlare del tempo o posso fornirti supporto tecnico.');
-        });
-
-        // support dialog flow
+        // lavoroagile faq dialog flow
         $botman->hears('lavoroagile(.*)', function (Botman $bot) {
             $extras = $bot->getMessage()->getExtras();
             $apiReply = $extras['apiReply'];
@@ -127,7 +121,7 @@ class WisemanController extends Controller
             $bot->reply($apiReply);
         })->middleware($dialogflow);
 
-        // smaltalk dialog flow
+        // fallback dialog flow
         $botman->hears('fallback.google(.*)', function (Botman $bot) {
             $this->log('$bot stream is: <pre>
                 '.print_r($bot->getMessage(),true).'
@@ -175,6 +169,54 @@ class WisemanController extends Controller
             }
         })->middleware($dialogflow);
 
+        /**
+        * These are not google intents
+        * But it's better to create a google intent `action` with no response
+        */
+
+        // telegram start
+        $botman->hears('/start', function (Botman $bot) {
+            $bot->reply('✋ Ciao! Mi chiamo Wiseman e sono il tuo assistente.');
+            $bot->reply('Possiamo chiacchierare liberamente, parlare del tempo o posso fornirti supporto tecnico.');
+        });
+
+        // gif
+        $botman->hears('/gif {name}', function(Botman $bot, $name){
+            $this->log('$bot stream is: <pre>
+            '.print_r($bot->getMessage(),true).'
+            </pre>');
+
+            $apikey = Yii::$app->params['giphy_developer_api'];
+            $url = 'https://api.giphy.com/v1/gifs/search?api_key='.$apikey
+            .'&q='.urlencode($name)
+            .'&limit=1&offset=0&rating=g&lang=it';
+            $client = new Client;
+            $request = $client->createRequest()
+            ->setMethod('GET')
+            ->setUrl($url)
+            ->setOptions([
+                'timeout' => 5, // set timeout to 1 seconds for the case server is not responding
+            ])
+            ->send();
+
+            if ($request->getisOk()){
+                $response = $request->getData();
+                $image = $response['data'][0]['images']['downsized_large']['url'];
+                $message = OutgoingMessage::create('Questa è la tua gif')->withAttachment(
+                    new Image($image)
+                );
+                $bot->reply($message);
+            } else {
+                $bot->reply('Non sono riuscito a comprendere la gif. Puoi ripetere?');
+            }
+        });
+
+        // poa conversation class
+        $botman->hears('/poa(.*)', function (Botman $bot) {
+            $bot->reply('Puoi verificare la quantità di token presenti su un indirizzo.');
+            $bot->startConversation(new PoaConversation);
+        });
+
         // fallback
         $botman->fallback(function (Botman $bot) {
             $this->log('$bot stream is: <pre>
@@ -191,36 +233,6 @@ class WisemanController extends Controller
             }
         });
 
-        // gif
-        $botman->hears('gif {name}', function(Botman $bot, $name){
-            $this->log('$bot stream is: <pre>
-                '.print_r($bot->getMessage(),true).'
-            </pre>');
-
-            $apikey = Yii::$app->params['giphy_developer_api'];
-            $url = 'https://api.giphy.com/v1/gifs/search?api_key='.$apikey
-                    .'&q='.urlencode($name)
-                    .'&limit=1&offset=0&rating=g&lang=it';
-            $client = new Client;
-            $request = $client->createRequest()
-                ->setMethod('GET')
-                ->setUrl($url)
-                ->setOptions([
-                    'timeout' => 5, // set timeout to 1 seconds for the case server is not responding
-                ])
-                ->send();
-
-            if ($request->getisOk()){
-                $response = $request->getData();
-                $image = $response['data'][0]['images']['downsized_large']['url'];
-                $message = OutgoingMessage::create('Questa è la tua gif')->withAttachment(
-                    new Image($image)
-                );
-                $bot->reply($message);
-            } else {
-                $bot->reply('Non sono riuscito a comprendere la gif. Puoi ripetere?');
-            }
-        });
 
 
         // help
@@ -245,11 +257,6 @@ class WisemanController extends Controller
         })->stopsConversation();
 
 
-        // poa conversation class
-        $botman->hears('poa(.*)', function (Botman $bot) {
-            $bot->reply('Puoi verificare la quantità di token presenti su un certo indirizzo.');
-            $bot->startConversation(new PoaConversation);
-        });
 
         // start listening
         $botman->listen();
