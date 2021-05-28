@@ -37,8 +37,8 @@ class PoaConversation extends Conversation
 
             // $this->say('Il bilancio è: '. $this->balanceToken());
             $erc20 = new Erc20;
-            $this->say('Il bilancio è di: <b>'. $erc20->balance($this->address) .'</b> token.');
-            $this->say('Il gas è di: <b>'. $this->balanceGas() .'</b>.');
+            $this->say('Il bilancio è di: '. $erc20->balance($this->address) .' token.');
+            $this->say('Il gas è di: '. $this->balanceGas());
 
 
         });

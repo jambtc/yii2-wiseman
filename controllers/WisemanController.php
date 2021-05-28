@@ -90,12 +90,18 @@ class WisemanController extends Controller
         $dialogflow = \BotMan\Middleware\DialogFlow\V2\DialogFlow::create('it');
         $botman->middleware->received($dialogflow);
 
-
         // telegram start
         $botman->hears('/start', function (Botman $bot) {
             $bot->reply('✋ Ciao! Mi chiamo Wiseman e sono il tuo assistente.');
             $bot->reply('Possiamo chiacchierare liberamente, parlare del tempo o posso fornirti supporto tecnico.');
         });
+
+        // support dialog flow
+        $botman->hears('lavoroagile(.*)', function (Botman $bot) {
+            $extras = $bot->getMessage()->getExtras();
+            $apiReply = $extras['apiReply'];
+            $bot->reply('[AdE]: ' .$apiReply);
+        })->middleware($dialogflow);
 
         // support dialog flow
         $botman->hears('support(.*)', function (Botman $bot) {
